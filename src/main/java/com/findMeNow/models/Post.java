@@ -1,8 +1,12 @@
 package com.findMeNow.models;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
+
+@Component
 @Entity
 @Table(name = "POSTS")
 public class Post {

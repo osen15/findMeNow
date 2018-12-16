@@ -1,8 +1,12 @@
 package com.findMeNow.models;
 
+import org.springframework.stereotype.Component;
+
 import javax.persistence.*;
 import java.util.Date;
 import java.util.Objects;
+
+@Component
 @Entity
 @Table(name = "MESSAGES")
 public class Message {
@@ -18,10 +22,10 @@ public class Message {
     @Column(name = "DATE_READ")
     private Date dateRead;
     @ManyToOne
-    @JoinColumn(name="USER_FROM_ID", nullable = false)
+    @JoinColumn(name = "USER_FROM_ID", nullable = false)
     private User userFrom;
     @ManyToOne
-    @JoinColumn(name="USER_TO_ID", nullable = false)
+    @JoinColumn(name = "USER_TO_ID", nullable = false)
     private User userTo;
 
     public Long getId() {
