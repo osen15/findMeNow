@@ -25,11 +25,11 @@ import javax.persistence.EntityManagerFactory;
 @EnableWebMvc
 @EnableTransactionManagement
 @ComponentScan(basePackages = {"com"})
-public class appConfiguration implements WebMvcConfigurer {
+public class AppConfiguration implements WebMvcConfigurer {
     private final ApplicationContext applicationContext;
 
     @Autowired
-    public appConfiguration(ApplicationContext applicationContext) {
+    public AppConfiguration(ApplicationContext applicationContext) {
         this.applicationContext = applicationContext;
     }
 
@@ -50,6 +50,7 @@ public class appConfiguration implements WebMvcConfigurer {
         return springTemplateEngine;
     }
 
+    @Override
     public void configureViewResolvers(ViewResolverRegistry registry) {
         ThymeleafViewResolver resolver = new ThymeleafViewResolver();
         resolver.setTemplateEngine(templateEngine());

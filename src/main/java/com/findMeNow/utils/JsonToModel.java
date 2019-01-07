@@ -18,6 +18,7 @@ public class JsonToModel<T> {
         try (BufferedReader reader = req.getReader()) {
             while ((line = reader.readLine()) != null)
                 stb.append(line);
+
         } catch (IOException e) {
             e.printStackTrace();
         }

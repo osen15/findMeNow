@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>500 error</title>
+</head>
+<body>
+<h1>Error Page</h1>
+</body>
+<div>
+    <p>500 - System error</p>
+    <p th:text="${error.getMessage()}">error message</p>
+</div>
+
+</html>

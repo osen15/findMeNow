@@ -22,10 +22,10 @@ public class Message {
     @Column(name = "DATE_READ")
     private Date dateRead;
     @ManyToOne
-    @JoinColumn(name = "USER_FROM_ID", nullable = false)
+    @JoinColumn(name = "USER_FROM_ID")
     private User userFrom;
     @ManyToOne
-    @JoinColumn(name = "USER_TO_ID", nullable = false)
+    @JoinColumn(name = "USER_TO_ID")
     private User userTo;
 
     public Long getId() {

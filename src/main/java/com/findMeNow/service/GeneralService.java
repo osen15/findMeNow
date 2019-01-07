@@ -1,28 +1,17 @@
 package com.findMeNow.service;
-
-
 import com.findMeNow.dao.GeneralDAO;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.stereotype.Component;
 
-@Service
-@Transactional
-public class GeneralService<T> extends GeneralDAO<T> {
 
-    public T save(T t) {
-        return super.save(t);
-    }
+@Component
+public  class GeneralService<T> extends GeneralDAO<T> {
 
-    public T update(T t) {
-        return super.update(t);
-    }
+//    public abstract T get(Long id) throws Exception;
+//
+//    public abstract void save(T t) throws Exception;
+//
+//    public abstract T update(T t);
+//
+//    public abstract void delete(Long id);
 
-    public void delete(Long id, Class<T> tClass) {
-        super.delete(id, tClass);
-
-    }
-
-    public T findById(Long id, Class<T> tClass) {
-        return super.findById(id, tClass);
-    }
 }

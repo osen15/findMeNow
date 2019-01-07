@@ -20,7 +20,7 @@ public class Post {
     @Column(name = "DATE_POSTED")
     private Date datePosted;
     @ManyToOne
-    @JoinColumn(name = "USER_POSTED_ID", nullable = false)
+    @JoinColumn(name = "USER_POSTED_ID")
     private User userPosted;
 
     //TODO

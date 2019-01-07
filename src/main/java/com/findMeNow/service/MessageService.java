@@ -8,5 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @Transactional
 public class MessageService extends GeneralService<Message> {
+
 }
 

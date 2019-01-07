@@ -14,7 +14,7 @@ public class User {
     @Id
     @SequenceGenerator(name = "USER_SEQ", sequenceName = "USER_ID_SEQ", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "USER_SEQ")
-    @Column(name = "USER_ID")
+    @Column(name = "ID")
     private Long id;
     @Column(name = "FIRST_NAME")
     private String firstName;
@@ -43,9 +43,9 @@ public class User {
     private String school;
     @Column(name = "UNIVERSITY")
     private String university;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFrom", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userFrom")
     private List<Message> messagesSent;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userTo", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "userTo")
     private List<Message> messagesReceived;
 
     public Long getId() {
@@ -195,24 +195,5 @@ public class User {
         return Objects.hash(id, firstName, lastName, phone, country, city, age, dateRegistered, dateLastActive, relationshipStatus, religion, school, university, messagesSent, messagesReceived);
     }
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", phone='" + phone + '\'' +
-                ", country='" + country + '\'' +
-                ", city='" + city + '\'' +
-                ", age=" + age +
-                ", dateregistered=" + dateRegistered +
-                ", dateLastActive=" + dateLastActive +
-                ", relationshipStatus='" + relationshipStatus + '\'' +
-                ", religion='" + religion + '\'' +
-                ", school='" + school + '\'' +
-                ", university='" + university + '\'' +
-                ", messagesSent=" + messagesSent +
-                ", messagesReceived=" + messagesReceived +
-                '}';
-    }
+
 }
