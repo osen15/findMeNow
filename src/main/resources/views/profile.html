@@ -2,25 +2,46 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:th="http://www.thymeleaf.org">
 <head>
-    <title>Find me now</title>
+    <meta charset="UTF-8">
+    <title th:text="${user.firstName +' '+ user.lastName}"></title>
+    <style>
+        .content {
+            position: relative;
+            height: 400px;
+            border: 1px solid #ff0009;
+        }
 
+        .green {
+            top: 100vmin;
+            right: 15px;
+            background-color: #9ceee8;
+        }
+        .firstLastName{
+
+
+        }
+
+
+    </style>
 </head>
 <body>
-<div>
-    User
-    <p th:text="${user.id}"></p>
-    <p th:text="${user.firstName}"></p>
-    <p th:text="${user.lastName}"></p>
-    <p th:text="${user.phone}"></p>
-    <p th:text="${user.country}"></p>
-    <p th:text="${user.city}"></p>
-    <p th:text="${user.age}"></p>
-    <p th:text="${user.dateRegistered}"></p>
-    <p th:text="${user.dateLastActive}"></p>
-    <p th:text="${user.relationshipStatus}"></p>
-    <p th:text="${user.religion}"></p>
-    <p th:text="${user.school}"></p>
-    <p th:text="${user.university}"></p>
+<div class="content">
+    <div class="firstLastName">
+        <h1 th:text="${user.firstName +' '+ user.lastName}"></h1>
+    </div>
+    <div class="green">
+        <p th:text="${user.id}"></p>
+        <p th:text="${user.phone}"></p>
+        <p th:text="${user.country}"></p>
+        <p th:text="${user.city}"></p>
+        <p th:text="${user.age}"></p>
+        <p th:text="${user.dateRegistered}"></p>
+        <p th:text="${user.dateLastActive}"></p>
+        <p th:text="${user.relationshipStatus}"></p>
+        <p th:text="${user.religion}"></p>
+        <p th:text="${user.school}"></p>
+        <p th:text="${user.university}"></p>
+    </div>
 </div>
 
 </body>

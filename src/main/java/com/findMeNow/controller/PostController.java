@@ -20,9 +20,9 @@ public class PostController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/get/{id}")
     // public @ResponseBody
-    public String doGet(Model model, @PathVariable String id){
-       model.addAttribute("post", postService.get(Post.class, Long.parseLong(id)));
-       return "home";
+    public String doGet(Model model, @PathVariable String id) {
+        model.addAttribute("post", postService.findById(Long.parseLong(id)));
+        return "home";
     }
 
 }

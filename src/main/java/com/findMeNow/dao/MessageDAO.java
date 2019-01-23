@@ -4,5 +4,6 @@ import com.findMeNow.models.Message;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public class MessageDAO extends GeneralDAO<Message>{
+public class MessageDAO extends GeneralDao<Message> {
+
 }

@@ -5,10 +5,8 @@ import org.springframework.stereotype.Repository;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-
 @Repository
-public  class GeneralDAO<T> {
-
+public class GeneralDao<T> {
 
     @PersistenceContext
     private EntityManager entityManager;
