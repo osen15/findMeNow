@@ -22,6 +22,10 @@ public class User {
     private String lastName;
     @Column(name = "PHONE")
     private String phone;
+    @Column(name = "EMAIL")
+    private String email;
+    @Column(name = "PASS_WORD")
+    private String password;
     //TODO from existed data
     @Column(name = "COUNTRY")
     private String country;
@@ -168,32 +172,40 @@ public class User {
         this.messagesReceived = messagesReceived;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(firstName, user.firstName) &&
-                Objects.equals(lastName, user.lastName) &&
-                Objects.equals(phone, user.phone) &&
-                Objects.equals(country, user.country) &&
-                Objects.equals(city, user.city) &&
-                Objects.equals(age, user.age) &&
-                Objects.equals(dateRegistered, user.dateRegistered) &&
-                Objects.equals(dateLastActive, user.dateLastActive) &&
-                Objects.equals(relationshipStatus, user.relationshipStatus) &&
-                Objects.equals(religion, user.religion) &&
-                Objects.equals(school, user.school) &&
-                Objects.equals(university, user.university) &&
-                Objects.equals(messagesSent, user.messagesSent) &&
-                Objects.equals(messagesReceived, user.messagesReceived);
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, firstName, lastName, phone, country, city, age, dateRegistered, dateLastActive, relationshipStatus, religion, school, university, messagesSent, messagesReceived);
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                ", country='" + country + '\'' +
+                ", city='" + city + '\'' +
+                ", age=" + age +
+                ", dateRegistered=" + dateRegistered +
+                ", dateLastActive=" + dateLastActive +
+                ", relationshipStatus='" + relationshipStatus + '\'' +
+                ", religion='" + religion + '\'' +
+                ", school='" + school + '\'' +
+                ", university='" + university + '\'' +
+                '}';
     }
-
-
 }

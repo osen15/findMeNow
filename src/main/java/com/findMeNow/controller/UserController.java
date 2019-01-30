@@ -1,16 +1,15 @@
 package com.findMeNow.controller;
 
+import com.findMeNow.exception.BadRequestException;
 import com.findMeNow.exception.InternalServerError;
-import com.findMeNow.exception.NotFoundException;
 import com.findMeNow.models.User;
 import com.findMeNow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 public class UserController {
@@ -38,4 +37,18 @@ public class UserController {
             return "errors/systemError";
         }
     }
+
+    @RequestMapping(path = "/register-user", method = RequestMethod.POST)
+    public ResponseEntity<String> registerUser(@ModelAttribute User user) {
+        try {
+            userService.save(user);
+            return new ResponseEntity<>(HttpStatus.OK);
+        } catch (BadRequestException e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
+        } catch (InternalServerError e) {
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+
 }
