@@ -18,13 +18,19 @@ public class UserService {
         this.userDAO = userDAO;
     }
 
-    public User findById(Long id) {
-        return userDAO.get(User.class, id);
+    public User findById(Long id) throws BadRequestException, InternalServerError {
+        try {
+            return userDAO.get(User.class, id);
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
 
-    public void save(User newUser) throws InternalServerError, BadRequestException {
-        userDAO.save(newUser);
+    public void save(User newUser) throws BadRequestException, InternalServerError {
+        try {
+            userDAO.save(newUser);
+        } catch (Exception e) {
+            throw new BadRequestException(e.getMessage());
+        }
     }
-
-
 }

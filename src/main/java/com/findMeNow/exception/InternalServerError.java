@@ -1,13 +1,14 @@
 package com.findMeNow.exception;
 
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.ResponseStatus;
+public class InternalServerError extends Exception {
 
-@ResponseStatus(code = HttpStatus.INTERNAL_SERVER_ERROR, reason = "Internal server error")
-public class InternalServerError extends RuntimeException {
 
     public InternalServerError(String message) {
         super(message);
+    }
+
+    public InternalServerError(String msg, Throwable cause) {
+        super(msg, cause);
     }
 
     public Integer getCode() {

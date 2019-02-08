@@ -2,6 +2,7 @@ package com.findMeNow.service;
 
 
 import com.findMeNow.dao.PostDAO;
+import com.findMeNow.exception.InternalServerError;
 import com.findMeNow.models.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,7 @@ public class PostService {
         this.postDAO = postDAO;
     }
 
-    public Post findById(Long id) {
+    public Post findById(Long id) throws InternalServerError {
         return postDAO.get(Post.class, id);
     }
 }

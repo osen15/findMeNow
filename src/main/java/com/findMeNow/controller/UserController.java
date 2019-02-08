@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+
 @Controller
 public class UserController {
     private UserService userService;
@@ -29,7 +30,7 @@ public class UserController {
             if (user == null) return "errors/notFoundException";
             model.addAttribute("user", user);
             return "profile";
-        } catch (NumberFormatException e) {
+        } catch (BadRequestException e) {
             model.addAttribute("error", e);
             return "errors/badRequestError";
         } catch (InternalServerError e) {
@@ -39,16 +40,15 @@ public class UserController {
     }
 
     @RequestMapping(path = "/register-user", method = RequestMethod.POST)
-    public ResponseEntity<String> registerUser(@ModelAttribute User user) {
+    public ResponseEntity<String> registerUser(@ModelAttribute User user){
         try {
             userService.save(user);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (BadRequestException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
         } catch (InternalServerError e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-
 
 }

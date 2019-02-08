@@ -26,7 +26,7 @@
         </div>
         <div class="reg-phone">
             <label>Phone:
-                <input type="tel" name="phone" pattern="\+?[0-9\s\-\(\)]" required>
+                <input type="tel" name="phone" required>
             </label>
         </div>
         <div class="reg-email">
@@ -45,23 +45,17 @@
     </form>
 </div>
 </body>
-<!--<style>-->
-<!--.body-1{-->
-<!--color: aqua;-->
-<!--}-->
-<!--</style>-->
 
 
 <script>
-    $("#registration-form").submit(function () {
+    $("#registration-form").submit(function (event) {
         event.preventDefault();
         $.ajax({
             url: "/register-user",
             type: "POST",
             data: $('#registration-form').serialize(),
             success: function () {
-                alert('User registered successfully');
-                window.location.reload(true);
+                alert('User registered!');
             },
             error: function (xhr) {
                 alert(xhr.responseText);

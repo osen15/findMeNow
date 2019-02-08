@@ -1,6 +1,7 @@
 package com.findMeNow.controller;
 
 
+import com.findMeNow.exception.InternalServerError;
 import com.findMeNow.models.Post;
 import com.findMeNow.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ public class PostController {
 
     @RequestMapping(method = RequestMethod.GET, path = "/get/{id}")
     // public @ResponseBody
-    public String doGet(Model model, @PathVariable String id) {
+    public String doGet(Model model, @PathVariable String id) throws InternalServerError {
         model.addAttribute("post", postService.findById(Long.parseLong(id)));
         return "home";
     }

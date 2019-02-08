@@ -1,5 +1,6 @@
 package com.findMeNow.dao;
 
+import com.findMeNow.exception.InternalServerError;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -11,20 +12,33 @@ public class GeneralDao<T> {
     @PersistenceContext
     private EntityManager entityManager;
 
-    public T get(Class<T> tClass, Long id) {
-        return entityManager.find(tClass, id);
+    public T get(Class<T> tClass, Long id) throws InternalServerError {
+        try {
+            return entityManager.find(tClass, id);
+        } catch (Exception e) {
+            throw new InternalServerError(e.getMessage());
+        }
     }
 
-    public void save(T t) {
-        entityManager.persist(t);
+    public T save(T t) throws InternalServerError {
+        try {
+            entityManager.persist(t);
+            return t;
+        } catch (Exception e) {
+            throw new InternalServerError(e.getMessage());
+        }
     }
 
     public T update(T t) {
         return entityManager.merge(t);
     }
 
-    public void delete(Class<T> tClass, long id) {
-        entityManager.remove(get(tClass, id));
+    public void delete(Class<T> tClass, long id) throws InternalServerError {
+        try {
+            entityManager.remove(get(tClass, id));
+        } catch (Exception e) {
+            throw new InternalServerError(e.getMessage());
+        }
     }
 
 
