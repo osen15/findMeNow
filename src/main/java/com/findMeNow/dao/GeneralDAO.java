@@ -1,5 +1,6 @@
 package com.findMeNow.dao;
 
+import com.findMeNow.exception.BadRequestException;
 import com.findMeNow.exception.InternalServerError;
 import org.springframework.stereotype.Repository;
 
@@ -20,13 +21,14 @@ public class GeneralDao<T> {
         }
     }
 
-    public T save(T t) throws InternalServerError {
+    public T save(T t) throws InternalServerError, BadRequestException {
         try {
             entityManager.persist(t);
-            return t;
+
         } catch (Exception e) {
             throw new InternalServerError(e.getMessage());
         }
+        return t;
     }
 
     public T update(T t) {

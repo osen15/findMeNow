@@ -2,7 +2,6 @@ package com.findMeNow.controller;
 
 
 import com.findMeNow.exception.InternalServerError;
-import com.findMeNow.models.Post;
 import com.findMeNow.service.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;

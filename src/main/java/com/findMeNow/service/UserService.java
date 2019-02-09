@@ -26,11 +26,7 @@ public class UserService {
         }
     }
 
-    public void save(User newUser) throws BadRequestException, InternalServerError {
-        try {
-            userDAO.save(newUser);
-        } catch (Exception e) {
-            throw new BadRequestException(e.getMessage());
-        }
+    public User save(User newUser) throws BadRequestException, InternalServerError {
+        return userDAO.save(newUser);
     }
 }
