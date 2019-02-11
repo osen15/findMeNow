@@ -5,6 +5,7 @@ import com.findMeNow.exception.BadRequestException;
 import com.findMeNow.exception.InternalServerError;
 import com.findMeNow.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class UserService {
     }
 
     public User save(User newUser) throws BadRequestException, InternalServerError {
-        return userDAO.save(newUser);
+        userDAO.save(newUser);
+        return newUser;
     }
 }

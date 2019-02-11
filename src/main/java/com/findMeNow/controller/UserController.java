@@ -4,7 +4,10 @@ import com.findMeNow.exception.BadRequestException;
 import com.findMeNow.exception.InternalServerError;
 import com.findMeNow.models.User;
 import com.findMeNow.service.UserService;
+import jdk.internal.instrumentation.Logger;
+import oracle.jdbc.logging.annotations.Logging;
 import org.hibernate.HibernateException;
+import org.hibernate.exception.ConstraintViolationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
@@ -12,6 +15,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.util.NestedServletException;
 
 
 @Controller
@@ -43,16 +48,16 @@ public class UserController {
     @RequestMapping(path = "/register-user", method = RequestMethod.POST)
     public ResponseEntity<String> registerUser(@ModelAttribute User user) {
         try {
-            System.out.println(userService.save(user));
+            userService.save(user);
             return new ResponseEntity<>("user registered!", HttpStatus.OK);
         } catch (BadRequestException e) {
-            return new ResponseEntity<>("bad request", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("bad request or user with phone/email" +
+                    " already exists", HttpStatus.BAD_REQUEST);
         } catch (InternalServerError e) {
             return new ResponseEntity<>("internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
-//        } catch (DataIntegrityViolationException e) {
-//            return new ResponseEntity<>("User with this phone number or email already exists", HttpStatus.BAD_REQUEST);
+
         }
     }
 
-}
 
+}
