@@ -3,6 +3,8 @@
       xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <link type="text/css" rel="stylesheet" href="../css/style.css" th:href="@{/css/style.css}"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <title th:text="${user.firstName +' '+ user.lastName}"></title>
     <style>
         .photo {
@@ -50,7 +52,32 @@
     </div>
 </div>
 
+<form id="form-logout">
+    <div>Logout:
+        <!--<label>-->
+            <!--<input type="password" placeholder="Enter your password" required>-->
+        <!--</label>-->
+        <button type="submit">Logout</button>
+    </div>
+</form>
+
+
 </body>
+<script>
+    $("#form-logout").submit(function () {
+        event.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/logout",
+            success: function success() {
+                window.location.replace("/");
+            },
+            error: function error(xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    });
 
 
+</script>
 </html>

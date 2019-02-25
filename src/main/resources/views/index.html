@@ -10,7 +10,7 @@
 </head>
 
 <body class="body-1">
-
+<!---------------------------------------------Registration form--------------------------------------------------------------------->
 <h1>Hello!</h1>
 <div class="reg-form">
     <form id="registration-form">
@@ -44,10 +44,43 @@
         </div>
     </form>
 </div>
-</body>
+<!------------------------------------------------------------------------------------------------------------------------->
 
+<!-------------------------------------------------Login form------------------------------------------------------------------------------------->
+<form id="loginForm">Login
+    <div class="login-form">
+        <label>
+            <input type="email" name="email" placeholder="example@example.example" required>
+        </label>
+        <label>
+            <input type="password" maxlength="25" minlength="8" name="password" placeholder="Enter Password" required>
+        </label>
+        <button type="submit">Login</button>
+    </div>
+</form>
+
+
+</body>
+<!------------------------------------------------------------------------------------------------------------------------------->
 
 <script>
+
+
+    $("#loginForm").submit(function login() {
+        event.preventDefault();
+        $.ajax({
+            type: "POST",
+            url: "/login",
+            data: $('#loginForm').serialize(),
+            success: function success(data) {
+                window.location = 'http://localhost:8070/' + data.toString();
+            },
+            error: function (xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    });
+
     $("#registration-form").submit(function (event) {
         event.preventDefault();
         $.ajax({

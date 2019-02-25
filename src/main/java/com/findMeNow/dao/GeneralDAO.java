@@ -31,8 +31,13 @@ public class GeneralDao<T> {
         return t;
     }
 
-    public T update(T t) {
-        return entityManager.merge(t);
+    public T update(T t) throws InternalServerError {
+        try {
+            return entityManager.merge(t);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new InternalServerError(e.getMessage());
+        }
     }
 
     public void delete(Class<T> tClass, long id) throws InternalServerError {

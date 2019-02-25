@@ -4,10 +4,6 @@ package com.findMeNow.dao;
 import com.findMeNow.exception.BadRequestException;
 import com.findMeNow.exception.InternalServerError;
 import com.findMeNow.models.User;
-
-
-import org.hibernate.exception.ConstraintViolationException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -22,6 +18,7 @@ public class UserDAO extends GeneralDao<User> {
     private EntityManager entityManager;
 
     private static final String searchUsersByPhoneAndEmail = "SELECT * FROM USERS WHERE PHONE = ? OR EMAIL = ?";
+    private static final String searchUserByEmail = "SELECT * FROM USERS WHERE EMAIL = ?";
 
     @Override
     public User get(Class<User> userClass, Long id) throws InternalServerError {
@@ -35,7 +32,17 @@ public class UserDAO extends GeneralDao<User> {
         return super.save(user);
     }
 
-    private ArrayList<User> searchUsersByPhoneAndEmail(User user) {
+    @Override
+    public User update(User user) throws InternalServerError {
+        return super.update(user);
+    }
+
+    public User findByEmail(String email) {
+        return (User) entityManager.createNativeQuery(searchUserByEmail, User.class)
+                .setParameter(1, email).getSingleResult();
+    }
+
+    public ArrayList<User> searchUsersByPhoneAndEmail(User user) {
         ArrayList<User> result = (ArrayList<User>) entityManager.createNativeQuery(searchUsersByPhoneAndEmail, User.class)
                 .setParameter(1, user.getPhone())
                 .setParameter(2, user.getEmail())
@@ -45,3 +52,5 @@ public class UserDAO extends GeneralDao<User> {
 
 
 }
+
+
