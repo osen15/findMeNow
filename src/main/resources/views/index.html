@@ -50,14 +50,18 @@
 <form id="loginForm">Login
     <div class="login-form">
         <label>
-            <input type="email" name="email" placeholder="example@example.example" required>
+            <input id="email" type="email" name="email" placeholder="example@example.example" required>
         </label>
         <label>
-            <input type="password" maxlength="25" minlength="8" name="password" placeholder="Enter Password" required>
+            <input id="password" type="password" maxlength="25" minlength="8" name="password"
+                   placeholder="Enter Password" required>
         </label>
         <button type="submit">Login</button>
     </div>
 </form>
+
+<!--=============================================================================================================================-->
+
 
 
 </body>
@@ -69,11 +73,14 @@
     $("#loginForm").submit(function login() {
         event.preventDefault();
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "/login",
-            data: $('#loginForm').serialize(),
-            success: function success(data) {
-                window.location = 'http://localhost:8070/' + data.toString();
+            data: ({
+                email: $('#email').val(),
+                password: $('#password').val()
+            }),
+            success: function (data) {
+                window.location = '/' + data.toString();
             },
             error: function (xhr) {
                 alert(xhr.responseText);

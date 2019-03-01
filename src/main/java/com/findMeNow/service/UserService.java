@@ -45,7 +45,7 @@ public class UserService {
     }
 
     public void setLastActive(User user) throws InternalServerError {
-        user.setDateLastActive(LocalDate.now());
+        user.setDateLastActive(new Date());
         userDAO.update(user);
     }
 

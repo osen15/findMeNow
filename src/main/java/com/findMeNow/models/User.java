@@ -3,7 +3,6 @@ package com.findMeNow.models;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -36,7 +35,7 @@ public class User {
     @Column(name = "DATE_REGISTERED")
     private Date dateRegistered;
     @Column(name = "DATE_LAST_ACTIVE")
-    private LocalDate dateLastActive;
+    private Date dateLastActive;
     //TODO enum
     @Column(name = "RELATIONSHIP_STATUS")
     private String relationshipStatus;
@@ -84,7 +83,7 @@ public class User {
         return dateRegistered;
     }
 
-    public LocalDate getDateLastActive() {
+    public Date getDateLastActive() {
         return dateLastActive;
     }
 
@@ -144,7 +143,7 @@ public class User {
         this.dateRegistered = dateRegistered;
     }
 
-    public void setDateLastActive(LocalDate dateLastActive) {
+    public void setDateLastActive(Date dateLastActive) {
         this.dateLastActive = dateLastActive;
     }
 

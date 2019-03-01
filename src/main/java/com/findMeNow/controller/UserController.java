@@ -5,12 +5,14 @@ import com.findMeNow.exception.InternalServerError;
 import com.findMeNow.models.User;
 import com.findMeNow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 
@@ -55,36 +57,38 @@ public class UserController {
         }
     }
 
-    @RequestMapping(path = "/login", method = RequestMethod.POST)
-    public ResponseEntity<String> login(HttpSession session, @ModelAttribute User user) {
-        System.out.println(user.toString());
+    @RequestMapping(path = "/login", method = RequestMethod.GET)
+    public ResponseEntity<String> login(HttpSession session,
+                                        @RequestParam("email") String email,
+                                        @RequestParam("password") String password) {
         try {
             if (session.getAttribute("user") == null) {
-                User resultUser = userService.login(user.getEmail(), user.getPassword());
+                User resultUser = userService
+                        .login(email, password);
                 session.setAttribute("user", resultUser);
                 return new ResponseEntity<>("user/" + resultUser.getId(), HttpStatus.OK);
             } else
-                return new ResponseEntity<>("user already logged", HttpStatus.LOCKED);
+                return new ResponseEntity<>("user already logged", HttpStatus.FORBIDDEN);
         } catch (BadRequestException e) {
-            return new ResponseEntity<>("bad request", HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>("wrong password or email", HttpStatus.BAD_REQUEST);
         } catch (InternalServerError e) {
-            return new ResponseEntity<>("internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
-    @RequestMapping(path = "/logout", method = RequestMethod.POST)
-    public ResponseEntity<String> logout(HttpSession session) {
+    @RequestMapping(path = "/logout", method = RequestMethod.GET)
+    public ResponseEntity<String> logout(HttpSession session, @RequestParam("password") String password) {
         User sessionUser = (User) session.getAttribute("user");
         System.out.println(sessionUser.toString());
         try {
-//            if (!sessionUser.getPassword().equals(password))
-//                return new ResponseEntity<>("bad request", HttpStatus.BAD_REQUEST);
+            if (!sessionUser.getPassword().equals(password))
+                return new ResponseEntity<>("wrong password", HttpStatus.BAD_REQUEST);
             userService.setLastActive(sessionUser);
         } catch (InternalServerError error) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
         session.removeAttribute("user");
-        return new ResponseEntity<>("index", HttpStatus.OK);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

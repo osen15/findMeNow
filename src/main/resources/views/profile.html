@@ -54,9 +54,9 @@
 
 <form id="form-logout">
     <div>Logout:
-        <!--<label>-->
-            <!--<input type="password" placeholder="Enter your password" required>-->
-        <!--</label>-->
+        <label>
+            <input id="password" type="password" name="password" placeholder="Enter your password" required>
+        </label>
         <button type="submit">Logout</button>
     </div>
 </form>
@@ -67,10 +67,18 @@
     $("#form-logout").submit(function () {
         event.preventDefault();
         $.ajax({
-            type: "POST",
+            type: "GET",
             url: "/logout",
-            success: function success() {
-                window.location.replace("/");
+            // data: $('#loginForm').serialize(),
+            // success: function success(data) {
+            //     window.location = '/';
+            // },
+            data: ({
+
+                password: $('#password').val()
+            }),
+            success: function (data) {
+                window.location = '/';
             },
             error: function error(xhr) {
                 alert(xhr.responseText);
