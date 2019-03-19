@@ -33,8 +33,8 @@ public class UserDAO extends GeneralDao<User> {
     }
 
     @Override
-    public User update(User user) throws InternalServerError {
-        return super.update(user);
+    public void update(User user) throws InternalServerError {
+        super.update(user);
     }
 
     public User findByEmail(String email) {

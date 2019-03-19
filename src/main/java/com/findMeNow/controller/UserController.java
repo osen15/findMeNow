@@ -1,38 +1,55 @@
 package com.findMeNow.controller;
 
+import com.findMeNow.dao.RelationshipDAO;
+import com.findMeNow.enums.TypeOfButtons;
 import com.findMeNow.exception.BadRequestException;
 import com.findMeNow.exception.InternalServerError;
+import com.findMeNow.models.Relationship;
 import com.findMeNow.models.User;
+import com.findMeNow.service.RelationshipService;
 import com.findMeNow.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpServletRequest;
+
 import javax.servlet.http.HttpSession;
 
 
 @Controller
 public class UserController {
-    private UserService userService;
-
+    private final UserService userService;
+    private final RelationshipDAO relationshipDAO;
+    private final RelationshipService relationshipService;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RelationshipDAO relationshipDAO, RelationshipService relationshipService) {
         this.userService = userService;
-
+        this.relationshipDAO = relationshipDAO;
+        this.relationshipService = relationshipService;
     }
 
+
     @RequestMapping(method = RequestMethod.GET, path = "/user/{id}")
-    public String profile(Model model, @PathVariable("id") Long id) {
+    public String profile(Model model, HttpSession session, @PathVariable("id") Long id) {
         try {
-            User user = userService.findById(id);
-            if (user == null) return "errors/notFoundException";
-            model.addAttribute("user", user);
+            User userSession = (User) session.getAttribute("user");
+            User userFindById = userService.findById(id);
+            model.addAttribute("user", userFindById);
+            model.addAttribute("userSession", userSession);
+
+            if (!userSession.getId().equals(id)) {
+                Relationship relationship = relationshipDAO.checkStatus(userSession.getId(), id);
+                model.addAttribute("relationship", relationship.getStatus().toString());
+            }
+
+            if (userSession.getId().equals(id)) {
+                model.addAttribute("outcomingRequests", relationshipService.findOutcomingRequest(id));
+                model.addAttribute("incomingRequests", relationshipService.findIncomingRequest(id));
+            }
             return "profile";
         } catch (BadRequestException e) {
             model.addAttribute("error", e);
@@ -40,20 +57,8 @@ public class UserController {
         } catch (InternalServerError e) {
             model.addAttribute("error", e);
             return "errors/systemError";
-        }
-    }
-
-    @RequestMapping(path = "/register-user", method = RequestMethod.POST)
-    public ResponseEntity<String> registerUser(@ModelAttribute User user) {
-        try {
-            userService.save(user);
-            return new ResponseEntity<>("user registered!", HttpStatus.OK);
-        } catch (BadRequestException e) {
-            return new ResponseEntity<>("bad request" +
-                    " already exists", HttpStatus.BAD_REQUEST);
-        } catch (InternalServerError e) {
-            return new ResponseEntity<>("internal server error", HttpStatus.INTERNAL_SERVER_ERROR);
-
+        } catch (NullPointerException e) {
+            return e.getMessage();
         }
     }
 
@@ -91,4 +96,6 @@ public class UserController {
         session.removeAttribute("user");
         return new ResponseEntity<>(HttpStatus.OK);
     }
+
+
 }

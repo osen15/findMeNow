@@ -60,10 +60,71 @@
         <button type="submit">Logout</button>
     </div>
 </form>
+<div th:if="${userSession.id != user.id}">
+    <div th:if="${relationship} == null or ${relationship} eq 'CANCELED'">
+        You are not friends
+        <button id="add-relship">
+            Add to friends
+        </button>
+    </div>
+    <div th:if="${relationship} eq 'FRIENDS'">
+        You are friends
+        <button id="remove-from-friends">
+            Remove
+        </button>
+    </div>
 
+    <div th:if="${relationship} eq 'REQUEST'">
+        You are sent request
+        <button id="cancel-relship">
+            Cancel request
+        </button>
+    </div>
+</div>
+<div th:if="${userSession.id == user.id}">
+    <div>
+        <h3>Incoming requests</h3>
+    </div>
+    <tr th:each="incomingRequest : ${incomingRequests}">
+        <p>
+            <button id="accept-the-invitation"
+                    th:onclick="'accept(\'' + ${incomingRequest.getId()} + '\');'"> Accept
+                Request
+            </button>
+        </p>
+        <p>
+            <button id="reject-the-invitation"
+                    th:onclick="'reject(\'' + ${incomingRequest.getId()} + '\');'"> Reject
+                Request
+            </button>
+        </p>
+    </tr>
+
+    <div>
+        <h3>Outcoming requests</h3>
+    </div>
+    <tr th:each="incomingRequest : ${incomingRequests}">
+        <p>
+            <button id="add-to-friens" th:onclick="'accept(\'' + ${incomingRequest.getId()} + '\');'">
+
+            </button>
+        </p>
+        <p>
+            <button id="reject"
+                    th:onclick="'reject(\'' + ${incomingRequest.getId()} + '\');'"> Reject
+                Request
+            </button>
+        </p>
+    </tr>
+</div>
 
 </body>
+
+
 <script>
+
+    var userId = window.location.pathname.split('/').pop();
+
     $("#form-logout").submit(function () {
         event.preventDefault();
         $.ajax({
@@ -85,6 +146,51 @@
             }
         });
     });
+
+
+    $("#add-relship").click(function () {
+
+        $.ajax({
+            url: "/add-relationship",
+            type: "POST",
+            data: {userToId: userId},
+            success: function success() {
+                window.location.reload(true)
+            },
+            error: function error(xhr) {
+                alert(xhr.responseText);
+            }
+        });
+    });
+
+    $("#cancel-relship").click(function () {
+
+        $.ajax({
+            url: "/update-relationship",
+            type: "POST",
+            data: {userId: userId.toString(), status: "CANCELED"},
+            success: function success() {
+                window.location.reload(true)
+            },
+            error: function error(xhr) {
+                alert(xhr.responseText);
+            }
+        })
+    });
+    $("#remove-from-friends").click(function () {
+
+        $.ajax({
+            url: "//update-relationship",
+            type: "POST",
+            data: {userId: userId.toString()},
+            success: function success() {
+                window.location.reload(true)
+            },
+            error: function error(xhr) {
+                alert(xhr.responseText);
+            }
+        })
+    })
 
 
 </script>

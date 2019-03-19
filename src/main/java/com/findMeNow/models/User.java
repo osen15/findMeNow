@@ -4,7 +4,9 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
 @Entity
@@ -50,6 +52,7 @@ public class User {
     private List<Message> messagesSent;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "userTo")
     private List<Message> messagesReceived;
+
 
     public Long getId() {
         return id;
