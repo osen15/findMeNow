@@ -1,6 +1,6 @@
 package com.findMeNow.models;
 
-import com.findMeNow.enums.Status;
+import com.findMeNow.enums.RelationshipStatus;
 import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
@@ -26,7 +26,7 @@ public class Relationship implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(name = "STATUS")
-    private Status status;
+    private RelationshipStatus relationshipStatus;
 
     public Long getId() {
         return id;
@@ -52,12 +52,12 @@ public class Relationship implements Serializable {
         this.userTo = userTo;
     }
 
-    public Status getStatus() {
-        return status;
+    public RelationshipStatus getRelationshipStatus() {
+        return relationshipStatus;
     }
 
-    public void setStatus(Status status) {
-        this.status = status;
+    public void setRelationshipStatus(RelationshipStatus relationshipStatus) {
+        this.relationshipStatus = relationshipStatus;
     }
 
     @Override
@@ -66,7 +66,7 @@ public class Relationship implements Serializable {
                 "id=" + id +
                 ", userFrom=" + userFrom +
                 ", userTo=" + userTo +
-                ", status=" + status +
+                ", relationshipStatus=" + relationshipStatus +
                 '}';
     }
 }

@@ -8,14 +8,14 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 @Repository
-public class GeneralDao<T> {
+public abstract class GeneralDao<T> {
 
     @PersistenceContext
     private EntityManager entityManager;
 
-    public T get(Class<T> tClass, Long id) throws InternalServerError {
+    public T get(Long id) throws InternalServerError {
         try {
-            return entityManager.find(tClass, id);
+            return entityManager.find(getModelClass(), id);
         } catch (Exception e) {
             throw new InternalServerError(e.getMessage());
         }
@@ -31,22 +31,27 @@ public class GeneralDao<T> {
         return t;
     }
 
-    public T update(T t) throws InternalServerError {
+
+    public void update(T t) throws InternalServerError {
         try {
-            return entityManager.merge(t);
+            entityManager.merge(t);
         } catch (Exception e) {
             e.printStackTrace();
             throw new InternalServerError(e.getMessage());
         }
     }
 
-    public void delete(Class<T> tClass, long id) throws InternalServerError {
+    public void delete(Long id) throws InternalServerError {
+
         try {
-            entityManager.remove(get(tClass, id));
+
+            entityManager.detach(get(id));
         } catch (Exception e) {
             throw new InternalServerError(e.getMessage());
         }
     }
 
+    public abstract void delete(long id) throws InternalServerError;
 
+    abstract Class<T> getModelClass();
 }

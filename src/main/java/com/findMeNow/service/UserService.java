@@ -22,7 +22,7 @@ public class UserService {
 
     public User findById(Long id) throws BadRequestException, InternalServerError {
         try {
-            return userDAO.get(User.class, id);
+            return userDAO.get(id);
         } catch (Exception e) {
             throw new BadRequestException(e.getMessage());
         }

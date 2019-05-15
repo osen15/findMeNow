@@ -21,8 +21,8 @@ public class UserDAO extends GeneralDao<User> {
     private static final String searchUserByEmail = "SELECT * FROM USERS WHERE EMAIL = ?";
 
     @Override
-    public User get(Class<User> userClass, Long id) throws InternalServerError {
-        return super.get(userClass, id);
+    public User get(Long id) throws InternalServerError {
+        return super.get(id);
     }
 
     @Override
@@ -35,6 +35,16 @@ public class UserDAO extends GeneralDao<User> {
     @Override
     public void update(User user) throws InternalServerError {
         super.update(user);
+    }
+
+    @Override
+    public void delete(long id) throws InternalServerError {
+
+    }
+
+    @Override
+    Class<User> getModelClass() {
+        return User.class;
     }
 
     public User findByEmail(String email) {

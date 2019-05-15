@@ -1,7 +1,6 @@
 package com.findMeNow.controller;
 
 import com.findMeNow.dao.RelationshipDAO;
-import com.findMeNow.enums.TypeOfButtons;
 import com.findMeNow.exception.BadRequestException;
 import com.findMeNow.exception.InternalServerError;
 import com.findMeNow.models.Relationship;
@@ -43,7 +42,7 @@ public class UserController {
 
             if (!userSession.getId().equals(id)) {
                 Relationship relationship = relationshipDAO.checkStatus(userSession.getId(), id);
-                model.addAttribute("relationship", relationship.getStatus().toString());
+                model.addAttribute("relationship", relationship.getRelationshipStatus().toString());
             }
 
             if (userSession.getId().equals(id)) {

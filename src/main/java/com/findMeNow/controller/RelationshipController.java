@@ -2,7 +2,7 @@ package com.findMeNow.controller;
 
 import com.findMeNow.dao.RelationshipDAO;
 import com.findMeNow.dao.UserDAO;
-import com.findMeNow.enums.Status;
+import com.findMeNow.enums.RelationshipStatus;
 import com.findMeNow.exception.BadRequestException;
 import com.findMeNow.exception.InternalServerError;
 import com.findMeNow.models.Relationship;
@@ -40,7 +40,7 @@ public class RelationshipController {
         if (sessionUser == null)
             return new ResponseEntity<>("Please login", HttpStatus.FORBIDDEN);
         try {
-            relationshipService.addNewRelationship(sessionUser, userDAO.get(User.class, Long.parseLong(userToId)));
+            relationshipService.addNewRelationship(sessionUser.getId(), Long.parseLong(userToId));
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (BadRequestException e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.BAD_REQUEST);
@@ -52,16 +52,16 @@ public class RelationshipController {
     @RequestMapping(path = "/update-relationship", method = RequestMethod.POST)
     public ResponseEntity<String> updateRelationship(HttpSession session,
                                                      @RequestParam("userId") String userId,
-                                                     @RequestParam("status") String status) {
+                                                     @RequestParam("status") String status) throws BadRequestException {
         User sessionUser = (User) session.getAttribute("user");
         if (sessionUser == null) {
             return new ResponseEntity<>("Please login", HttpStatus.FORBIDDEN);
         }
         try {
             Relationship relationship = relationshipDAO.checkStatus(sessionUser.getId(), Long.parseLong(userId));
-            relationship.setStatus(Enum.valueOf(Status.class, status));
+            relationship.setRelationshipStatus(Enum.valueOf(RelationshipStatus.class, status));
             //relationshipService.updateRelationship(sessionUser.getId().toString(), userId, status);
-            relationshipDAO.update(relationship);
+            relationshipService.updateRelationship(relationship);
             return new ResponseEntity<>(HttpStatus.OK);
         } catch (InternalServerError e) {
             return new ResponseEntity<>(e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);

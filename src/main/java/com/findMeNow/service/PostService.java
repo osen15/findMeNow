@@ -20,6 +20,6 @@ public class PostService {
     }
 
     public Post findById(Long id) throws InternalServerError {
-        return postDAO.get(Post.class, id);
+        return postDAO.get(id);
     }
 }

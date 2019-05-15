@@ -21,7 +21,7 @@ public class RelationshipDAO extends GeneralDao<Relationship> {
     @PersistenceContext
     private EntityManager entityManager;
 
-    private static final String checkStatus =
+    private static final String getRelationshipStatus =
             "SELECT * FROM RELATIONSHIPS WHERE USER_FROM_ID = :userFromId AND USER_TO_ID = :userToId " +
                     "OR USER_TO_ID = :userFromId AND USER_FROM_ID = :userToId";
 
@@ -40,10 +40,10 @@ public class RelationshipDAO extends GeneralDao<Relationship> {
     }
 
     @Override
-    public void delete(Class<Relationship> relationshipClass, long id) throws InternalServerError {
-        Relationship relationship = get(Relationship.class, id);
+    public void delete(long id) throws InternalServerError {
+        Relationship relationship = get(id);
         if (relationship != null)
-            super.delete(relationshipClass, relationship.getId());
+            super.delete(relationship.getId());
     }
 
 //    public void updateRelationship(Long userFromId, Long userToId, String status) throws InternalServerError {
@@ -61,19 +61,24 @@ public class RelationshipDAO extends GeneralDao<Relationship> {
 
     @Override
     public void update(Relationship relationship) throws InternalServerError {
-        if (get(Relationship.class, relationship.getId()) != null)
+        if (get(relationship.getId()) != null)
             super.update(relationship);
     }
 
+    @Override
+    Class<Relationship> getModelClass() {
+        return Relationship.class;
+    }
+
     public Relationship checkStatus(Long userFromId, Long userToId) {
-        return (Relationship) entityManager.createNativeQuery(checkStatus, Relationship.class)
+        return (Relationship) entityManager.createNativeQuery(getRelationshipStatus, Relationship.class)
                 .setParameter("userFromId", userFromId)
                 .setParameter("userToId", userToId).getSingleResult();
     }
 
     @Override
-    public Relationship get(Class<Relationship> relationshipClass, Long id) throws InternalServerError {
-        return super.get(relationshipClass, id);
+    public Relationship get(Long id) throws InternalServerError {
+        return super.get(id);
     }
 
     public List<User> findOutcomingRequest(Long userId) throws InternalServerError {

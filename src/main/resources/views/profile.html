@@ -168,7 +168,7 @@
         $.ajax({
             url: "/update-relationship",
             type: "POST",
-            data: {userId: userId.toString(), status: "CANCELED"},
+            data: {userId: userId.toString(), relationshipStatus: "CANCELED"},
             success: function success() {
                 window.location.reload(true)
             },

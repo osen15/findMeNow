@@ -1,7 +1,8 @@
 package com.findMeNow.enums;
 
-public enum Status {
+public enum RelationshipStatus {
     REQUEST,
+    REJECTED,
     FRIENDS,
     DELETED,
     CANCELED
